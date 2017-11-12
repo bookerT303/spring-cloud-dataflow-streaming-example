@@ -1,0 +1,49 @@
+ext.loadProperties = {props, filePath, reportIfMissing ->
+    def file = file(filePath)
+    if (file.exists()) {
+        file.withInputStream {
+            stream -> props.load(stream)
+        }
+    } else if (reportIfMissing) {
+        println("!!!!!! Could not find properties file at path: $filePath. See README.md for instructions.")
+    }
+    return props
+}
+
+tasks.withType(Test) {
+    def props = new Properties()
+    props = loadProperties(props, "$rootDir/env_test.properties", true)
+    def testProperties = loadProperties(props, "$projectDir/cf.properties", false)
+    List excluded = loadExcludedProperties()
+
+    testProperties.each { prop, val ->
+        if (excluded.contains(prop) == false) {
+            environment prop, val
+        }
+    }
+}
+
+tasks.withType(org.gradle.api.tasks.JavaExec) {
+    def props = new Properties()
+    props = loadProperties(props, "$rootDir/env.properties", true)
+    def properties = loadProperties(props, "$projectDir/cf.properties", false)
+    List excluded = loadExcludedProperties()
+
+    properties.each { prop, val ->
+        if (excluded.contains(prop) == false) {
+            environment prop, val
+        }
+    }
+}
+
+private List loadExcludedProperties() {
+    def excludedPropertiesFile = file("$projectDir/excluded-properties.txt")
+    def excluded = []
+    if (excludedPropertiesFile.exists()) {
+        excluded = excludedPropertiesFile.eachLine {
+            line -> excluded << line
+        }
+    }
+    excluded
+}
+

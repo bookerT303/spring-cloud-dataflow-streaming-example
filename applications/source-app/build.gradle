@@ -1,0 +1,40 @@
+apply from: "$rootDir/scripts/java.gradle"
+
+jar {
+    baseName = "source-app"
+    version = "1.0.0-SNAPSHOT"
+}
+
+jar.doFirst{
+    manifest {
+        attributes(
+                'Implementation-Title': 'Source App',
+                'Implementation-Version': version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty('java.version'),
+                'Built-Gradle': gradle.gradleVersion,
+                'Git-Commit': getCheckedOutGitCommitHash(),
+                'Git-Repo': getGitUrl()
+        )
+    }
+}
+
+apply plugin: "org.springframework.boot"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:$springCloudServicesVersion"
+    }
+}
+
+dependencies {
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version:'1.2.1.RELEASE'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter', version:'1.5.6.RELEASE') {
+exclude(module: 'commons-logging')
+    }
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.5.6.RELEASE') {
+exclude(module: 'commons-logging')
+    }
+}

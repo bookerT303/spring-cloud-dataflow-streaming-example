@@ -1,0 +1,5 @@
+rootProject.name = 'spring-cloud-dataflow-streaming-example'
+
+include "applications:source-app"
+include "applications:processor-app"
+include "applications:sink-app"

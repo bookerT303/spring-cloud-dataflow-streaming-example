@@ -5,6 +5,33 @@ Example for the blog post: http://zoltanaltfatter.com/2017/08/24/streaming-with-
 This is a mvn project without any mvnw so use Intellij Maven Projects to execute the mvn commands
 for clean and package
 
+# Install and setup
+```
+brew -v update && brew install rabbitmq
+brew services start rabbitmq
+```
+
+Create env.properties
+```
+# Properties that should be provided by the services and cloud foundry environment
+SPRING_PROFILES_ACTIVE=development
+SECURITY_BASIC_ENABLED=false
+MANAGEMENT_SECURITY_ENABLED=false
+logging.level.org.springframework.integration.support.MessageBuilder=WARN
+
+SECURITY_USER_NAME=admin
+SECURITY_USER_PASSWORD=secret
+MANAGEMENT_SECURITY_ROLES=SUPERUSER
+```
+
+Create env_test.properties
+```
+# Properties that should be provided by the services and cloud foundry environment
+SPRING_PROFILES_ACTIVE=development
+SECURITY_BASIC_ENABLED=false
+MANAGEMENT_SECURITY_ENABLED=false
+logging.level.org.springframework.integration.support.MessageBuilder=WARN
+```
 # Running the apps...
 
  ## Source... running only 1 instance

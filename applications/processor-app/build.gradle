@@ -30,6 +30,7 @@ dependencyManagement {
 }
 
 dependencies {
+    compile project (":components:processor-library")
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version:'1.2.1.RELEASE'
     compile group: 'org.projectlombok', name: 'lombok', version:'1.16.18'
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter', version:'1.5.6.RELEASE') {

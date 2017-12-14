@@ -1,26 +1,14 @@
 package com.example.processorapp;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.integration.annotation.ServiceActivator;
-
-import java.util.Date;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableBinding(Processor.class)
-@Slf4j
+@ComponentScan("com.example")
 public class ProcessorApp {
 
     public static void main(String[] args) {
         SpringApplication.run(ProcessorApp.class, args);
-    }
-
-    @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-    public String transform(String payload) {
-        log.info("Processor received {}", payload);
-        return payload + " processed at "+(new Date());
     }
 }

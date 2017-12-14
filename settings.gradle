@@ -3,3 +3,7 @@ rootProject.name = 'spring-cloud-dataflow-streaming-example'
 include "applications:source-app"
 include "applications:processor-app"
 include "applications:sink-app"
+
+include "components:source-library"
+include "components:processor-library"
+include "components:sink-library"

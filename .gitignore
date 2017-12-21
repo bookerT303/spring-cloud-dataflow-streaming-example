@@ -41,3 +41,4 @@ env_test.properties
 *.eml
 
 jacoco/
+applications/*/out/

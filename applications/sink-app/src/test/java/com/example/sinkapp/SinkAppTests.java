@@ -2,55 +2,50 @@ package com.example.sinkapp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.integration.channel.AbstractMessageChannel;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.ChannelInterceptorAdapter;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SinkAppTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Autowired
+    private Sink channels;
 
+    @Test
+    public void testSink() {
+        AbstractMessageChannel input = (AbstractMessageChannel) channels.input();
+
+        final AtomicReference<Message<?>> messageAtomicReference =
+                new AtomicReference<>();
+
+        ChannelInterceptor assertionInterceptor = new ChannelInterceptorAdapter() {
+
+            @Override
+            public void afterSendCompletion(Message<?> message, MessageChannel channel,
+                                            boolean sent, Exception ex) {
+                messageAtomicReference.set(message);
+                super.afterSendCompletion(message, channel, sent, ex);
+            }
+        };
+
+        input.addInterceptor(assertionInterceptor);
+        input.send(new GenericMessage<>("Sample message, contents does not matter"));
+
+        Message<?> message1 = messageAtomicReference.get();
+        assertThat(message1).isNotNull();
+        assertThat(message1).hasFieldOrPropertyWithValue("payload", "Sample message, contents does not matter");
+    }
 }
-/*
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = FieldValueCounterSinkApplication.class)
-@WebIntegrationTest({"server.port:-1", "name:FVCounter", "store:redis", "fieldName:test"})
-@DirtiesContext
-public class FieldValueCounterSinkTests {
-
-	@Rule
-	public RedisTestSupport redisTestSupport = new RedisTestSupport();
-
-	private static final String FVC_NAME = "FVCounter";
-
-	@Autowired
-	@Bindings(FieldValueCounterSink.class)
-	private Sink sink;
-
-	@Autowired
-	private FieldValueCounterRepository fieldValueCounterRepository;
-
-	@Before
-	@After
-	public void clear() {
-		fieldValueCounterRepository.reset(FVC_NAME);
-	}
-
-	@Test
-	public void testFieldNameIncrement() {
-		assertNotNull(this.sink.input());
-		Message<String> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
-		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hello\"}").build();
-		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
-		sink.input().send(message);
-		assertEquals(2, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hi").longValue());
-		assertEquals(1, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hello").longValue());
-	}
-
-
- */

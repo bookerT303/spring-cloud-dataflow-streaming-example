@@ -88,3 +88,10 @@ view port into the topic
 
 **This last example could be a simple `source` to `sink` without any
 processor.**
+
+## Sending messages
+
+The source app can publish messages using:
+```
+curl -v --data "message data" -H "Content-Type: text/plain" http://localhost:8081/publish
+```

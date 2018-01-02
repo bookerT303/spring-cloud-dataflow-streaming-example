@@ -22,8 +22,8 @@ security:
     name: admin
     password: secret
   basic:
-    enabled: true
+    enabled: false
 management:
   security:
-    enabled: true
+    enabled: false
     roles: SUPERUSER

@@ -5,7 +5,7 @@ jar {
     version = "1.0.0-SNAPSHOT"
 }
 
-jar.doFirst{
+jar.doFirst {
     manifest {
         attributes(
                 'Implementation-Title': 'Source App',
@@ -31,12 +31,14 @@ dependencyManagement {
 
 dependencies {
     compile project(":components:source-library")
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version:'1.2.1.RELEASE'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter', version:'1.5.6.RELEASE') {
-exclude(module: 'commons-logging')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version: '1.2.1.RELEASE'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.6.RELEASE') {
+        exclude(module: 'commons-logging')
     }
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.5.6.RELEASE') {
-exclude(module: 'commons-logging')
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.6.RELEASE') {
+        exclude(module: 'commons-logging')
     }
     testCompile(group: 'org.springframework.cloud', name: 'spring-cloud-stream-test-support')
 }

@@ -89,6 +89,16 @@ view port into the topic
 **This last example could be a simple `source` to `sink` without any
 processor.**
 
+### Run Configuration for a debug processor
+```
+--spring.cloud.stream.bindings.input.destination=demo
+--server.port=8089
+--spring.cloud.stream.bindings.input.group=debug
+```
+
+**This allows seeing all the messages that the other
+processors should have processed.**
+
 ## Sending messages
 
 The source app can publish messages using:

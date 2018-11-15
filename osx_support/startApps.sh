@@ -8,11 +8,11 @@ tell app "Terminal"
 END
 }
 open-term ./launchSinkApp.sh
-sleep 14
+sleep 4
 open-term ./launchSinkApp2.sh
-sleep 14
+sleep 4
 open-term ./launchProcessorApp.sh
-sleep 14
+sleep 4
 open-term ./launchProcessorApp2.sh
-sleep 14
+sleep 4
 open-term ./launchSourceApp.sh

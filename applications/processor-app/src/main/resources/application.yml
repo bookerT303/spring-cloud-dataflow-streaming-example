@@ -12,7 +12,7 @@ spring:
           destination: demo-processed
         input:
           destination: demo
-
+          group: processors
 info:
   app:
     name: Processor App

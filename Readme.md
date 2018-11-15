@@ -91,9 +91,13 @@ processor.**
 
 ### Run Configuration for a debug processor
 ```
---spring.cloud.stream.bindings.input.destination=demo
+--spring.cloud.stream.bindings.input.destination=demo-processed
 --server.port=8089
 --spring.cloud.stream.bindings.input.group=debug
+```
+Which is actually done with:
+```
+SPRING_APPLICATION_JSON='{"spring.cloud.stream.bindings.ion": "demo-processed", "server.port": 8089, "spring.cloud.stream.bindings.input.group": "debug" }'
 ```
 
 **This allows seeing all the messages that the other

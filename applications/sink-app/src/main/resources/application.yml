@@ -7,6 +7,7 @@ spring:
       bindings:
         input:
           destination: demo-processed
+          group: sinks
 server:
   port: 8083
 

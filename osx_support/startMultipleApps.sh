@@ -9,6 +9,10 @@ END
 }
 open-term ./launchSinkApp.sh
 sleep 4
+open-term ./launchSinkApp2.sh
+sleep 4
 open-term ./launchProcessorApp.sh
+sleep 4
+open-term ./launchProcessorApp2.sh
 sleep 4
 open-term ./launchSourceApp.sh

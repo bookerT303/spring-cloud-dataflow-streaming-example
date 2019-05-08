@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Event1Example;
+import com.example.model.Event2Example;
 import com.example.source.PublisherSource;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class PublisherController {
@@ -34,12 +36,19 @@ public class PublisherController {
         source.source(payload);
     }
 
+    AtomicInteger counter = new AtomicInteger(1);
     @PostMapping("/publishEvent/{name}")
     @ResponseStatus(HttpStatus.CREATED)
     public void publishEvent(@PathVariable String name) throws JsonProcessingException {
         LoggerFactory.getLogger(PublisherController.class).info("Publishing Event {}", name);
 
-        Event1Example event = new Event1Example(random.nextLong(), name, "");
+        int indicator = counter.addAndGet(1) % 2;
+        Object event;
+        if (indicator == 0) {
+            event = new Event1Example(random.nextLong(), name, "");
+        } else {
+            event = new Event2Example(random.nextLong(), name+"2", "");
+        }
         source.source(event);
     }
 

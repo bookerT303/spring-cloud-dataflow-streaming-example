@@ -23,7 +23,7 @@ public class PublisherSource {
         this.source = source;
     }
 
-    public void source(String message) {
+    public void source(Object message) {
         source.output().send(MessageBuilder.withPayload(message).build());
     }
 }

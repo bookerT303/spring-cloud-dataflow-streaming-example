@@ -16,7 +16,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/publish").permitAll()
+                .antMatchers("/publish", "/publish/*", "/publishEvent/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

@@ -1,5 +1,6 @@
 package com.example.processor;
 
+import com.example.model.Event1Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -14,7 +15,13 @@ public class LoggerProcessor {
 
     @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
     public String transform(String payload) {
-        log.info("Processor received {}", payload);
+        log.info("Processor received String {}", payload);
         return payload + " processed at " + (new Date());
+    }
+
+    @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
+    public Event1Example transformEvent(Event1Example payload) {
+        log.info("Processor received Event {}", payload);
+        return new Event1Example(payload.getId(), payload.getName(), " processed at " + (new Date()));
     }
 }

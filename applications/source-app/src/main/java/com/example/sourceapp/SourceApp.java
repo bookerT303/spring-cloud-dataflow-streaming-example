@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.integration.config.EnablePublisher;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -23,8 +22,8 @@ public class SourceApp {
     @Autowired
     PublisherSource publisher;
 
-    @Scheduled(initialDelay = 1000L, fixedDelay = 1000L)
-    public void scheduleFixedDelayTask() {
-        publisher.source(new Date().toString());
-    }
+//    @Scheduled(initialDelay = 1000L, fixedDelay = 1000L)
+//    public void scheduleFixedDelayTask() {
+//        publisher.source(new Date().toString());
+//    }
 }

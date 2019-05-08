@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.source.PublisherSource;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +18,7 @@ public class PublisherControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        controller = new PublisherController(source);
+        controller = new PublisherController(source, resolver);
     }
 
     @Test

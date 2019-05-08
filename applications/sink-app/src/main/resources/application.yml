@@ -5,8 +5,11 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        input_event1:
           destination: demo-processed
+          group: sinks
+        input_event2:
+          destination: demo2-processed
           group: sinks
 server:
   port: 8083

@@ -43,18 +43,20 @@ public class PublisherController {
         LoggerFactory.getLogger(PublisherController.class).info("Publishing Event {}", name);
 
         int indicator = counter.addAndGet(1) % 2;
-        Object event;
         if (indicator == 0) {
-            event = new Event1Example(random.nextLong(), name, "");
+            source.source(new Event1Example(random.nextLong(), name, ""));
         } else {
-            event = new Event2Example(random.nextLong(), name+"2", "");
+            publish("demo2-processed",new Event2Example(random.nextLong(), name+"2", ""));
         }
-        source.source(event);
     }
 
     @PostMapping("/publish/{topic}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void publish(@PathVariable String topic, @RequestBody String payload) {
+    public void publishToTopic(@PathVariable String topic, @RequestBody String payload) {
+        publish(topic, payload);
+    }
+
+    private void publish(@PathVariable String topic, Object payload) {
         LoggerFactory.getLogger(PublisherController.class).info("Publishing to {} {}", topic,
                 payload);
         MessageChannel channel = resolver.resolveDestination(topic);

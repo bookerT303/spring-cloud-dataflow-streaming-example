@@ -1,32 +1,42 @@
 server:
   port: 8082
 
+info:
+  app:
+    name: Processor App
+    description: Processor App - transform messages on the kafka for the spring-cloud-datafalow-streaming-example
+
+logging:
+  level: INFO
+
 spring:
   application:
     name: processor-app
 
   cloud:
     stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
       bindings:
         output:
-          destination: demo-processed
+          destination: kafka-demo-processed
+          content-type: application/json
         input:
-          destination: demo
+          destination: kafka-demo
+          content-type: application/json
           group: processors
-info:
-  app:
-    name: Processor App
-    description: Processor App - transform messages on the rabbitMq for the spring-cloud-datafalow-streaming-example
-
-logging:
-  level: INFO
-security:
-  user:
-    name: admin
-    password: secret
-  basic:
-    enabled: true
-management:
   security:
-    enabled: true
-    roles: SUPERUSER
+    user:
+      name: admin
+      password: secret
+      roles: ACTUATOR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: when_authorized

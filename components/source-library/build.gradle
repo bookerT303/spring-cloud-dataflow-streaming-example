@@ -1,9 +1,0 @@
-apply from: "$rootDir/scripts/java.gradle"
-
-dependencies {
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version:'1.2.1.RELEASE'
-    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.18'
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.5.6.RELEASE') {
-        exclude(module: 'commons-logging')
-    }
-}

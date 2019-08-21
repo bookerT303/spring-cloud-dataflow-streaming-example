@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -35,7 +35,7 @@ public class PublisherSourceTest {
 
         ArgumentCaptor<Message> captor = ArgumentCaptor.forClass(Message.class);
         verify(messageChannel).send(captor.capture());
-        assertThat(String.valueOf(captor.getValue().getPayload())).isEqualTo("This is a test");
+        assertThat(String.valueOf(captor.getValue().getPayload())).contains("This is a test");
         verify(source).output();
         verifyNoMoreInteractions(source, messageChannel);
     }

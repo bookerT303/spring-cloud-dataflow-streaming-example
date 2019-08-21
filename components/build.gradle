@@ -1,0 +1,38 @@
+subprojects {
+    apply plugin: "java"
+    apply plugin: "io.spring.dependency-management"
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudServicesVersion}"
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    dependencies {
+        compile "org.springframework:spring-web"
+        compile "org.springframework:spring-context"
+        compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+        compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+        compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+        compile "org.slf4j:slf4j-api:$slf4jVersion"
+
+        compile "org.springframework.cloud:spring-cloud-starter-stream-kafka"
+        
+        testCompile "org.springframework.boot:spring-boot-starter-test:2.0.0.RELEASE"
+        testCompile "junit:junit:$junitVersion"
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
+        testCompile "org.assertj:assertj-core:$assertJVersion"
+    }
+
+    defaultTasks("clean", "build")
+}

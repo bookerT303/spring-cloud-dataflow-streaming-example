@@ -9,8 +9,10 @@ import org.mockito.Mock;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.argThat;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,14 +31,14 @@ public class LoggerProcessorTests {
 
         LoggerProcessor processor = new LoggerProcessor();
 
-        String transformed = processor.transform("Hello");
+        String transformed = processor.transform(new GreetingMessage("Hello", LocalDateTime.now()));
 
-        assertThat(transformed).startsWith("Hello processed at ");
+        assertThat(transformed).startsWith("Hello at ");
 
         verify(mockAppender).doAppend(argThat(new ArgumentMatcher() {
             @Override
             public boolean matches(final Object argument) {
-                return ((LoggingEvent) argument).getFormattedMessage().contains("Processor received Hello");
+                return ((LoggingEvent) argument).getFormattedMessage().contains("Processor received GreetingMessage{value='Hello',");
             }
         }));
     }

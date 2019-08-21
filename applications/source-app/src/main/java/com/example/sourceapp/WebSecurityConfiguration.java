@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER - 1)
+@Order(SecurityProperties.DEFAULT_FILTER_ORDER - 1)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override

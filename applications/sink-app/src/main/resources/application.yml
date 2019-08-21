@@ -1,3 +1,14 @@
+server:
+  port: 8083
+
+info:
+  app:
+    name: Sink App
+    description: Sink App - consume messages from the kafka for the spring-cloud-datafalow-streaming-example
+
+logging:
+  level: INFO
+
 spring:
   application:
     name: sink-app
@@ -6,25 +17,21 @@ spring:
     stream:
       bindings:
         input:
-          destination: demo-processed
+          destination: kafka-demo-processed
           group: sinks
-server:
-  port: 8083
-
-info:
-  app:
-    name: Sink App
-    description: Sink App - consume messages from the rabbitMq for the spring-cloud-datafalow-streaming-example
-
-logging:
-  level: INFO
-security:
-  user:
-    name: admin
-    password: secret
-  basic:
-    enabled: true
-management:
+          binder: kafka
+#          content-type: application/json
   security:
-    enabled: true
-    roles: SUPERUSER
+    user:
+      name: admin
+      password: secret
+      roles: ACTUATOR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: when_authorized

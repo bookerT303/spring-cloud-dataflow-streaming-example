@@ -17,7 +17,8 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: localhost:9092
+          autoAddPartitions: true
+          minPartitionCount: 2
       bindings:
         output:
           destination: kafka-demo-processed

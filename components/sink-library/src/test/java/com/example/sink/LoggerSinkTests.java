@@ -33,7 +33,7 @@ public class LoggerSinkTests {
         verify(mockAppender).doAppend(argThat(new ArgumentMatcher() {
             @Override
             public boolean matches(final Object argument) {
-                return ((LoggingEvent)argument).getFormattedMessage().contains("received Hello");
+                return ((LoggingEvent) argument).getFormattedMessage().contains("received Hello");
             }
         }));
     }

@@ -10,11 +10,6 @@ import org.springframework.integration.annotation.ServiceActivator;
 public class LoggerProcessor {
     final private static Logger log = LoggerFactory.getLogger(LoggerProcessor.class);
 
-    //    @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-//    public String transform(String payload) {
-//        log.info("Processor received {}", payload);
-//        return payload + " processed at " + (new Date());
-//    }
     @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
     public String transform(GreetingMessage greetingMessage) {
         log.info("Processor received " + greetingMessage);

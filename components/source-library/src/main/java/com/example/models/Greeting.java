@@ -11,7 +11,7 @@ public class Greeting {
     String value;
     LocalDateTime dateTime;
 
-    public Greeting () {
+    public Greeting() {
         this(null, null);
     }
 

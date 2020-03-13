@@ -30,7 +30,7 @@ public class ProcessorAppTests {
     public void testProcessor() {
 //        channels.input().send(new GenericMessage<>("Message for Processor"));
         channels.input().send(new GenericMessage<>(
-                new GreetingMessage("Message for Processor", LocalDateTime.now())));
+                new GreetingMessage(1,"Message for Processor", LocalDateTime.now())));
 
         BlockingQueue<Message<?>> messages = collector.forChannel(channels.output());
 

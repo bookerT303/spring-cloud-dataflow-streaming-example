@@ -31,14 +31,14 @@ public class LoggerProcessorTests {
 
         LoggerProcessor processor = new LoggerProcessor();
 
-        String transformed = processor.transform(new GreetingMessage("Hello", LocalDateTime.now()));
+        String transformed = processor.transform(new GreetingMessage(1, "Hello", LocalDateTime.now()));
 
-        assertThat(transformed).startsWith("Hello at ");
+        assertThat(transformed).startsWith("1: Hello at ");
 
         verify(mockAppender).doAppend(argThat(new ArgumentMatcher() {
             @Override
             public boolean matches(final Object argument) {
-                return ((LoggingEvent) argument).getFormattedMessage().contains("Processor received GreetingMessage{value='Hello',");
+                return ((LoggingEvent) argument).getFormattedMessage().contains("Processor received GreetingMessage{id=1, value='Hello',");
             }
         }));
     }

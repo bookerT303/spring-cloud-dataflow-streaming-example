@@ -27,6 +27,11 @@ spring:
           destination: kafka-demo
           content-type: application/json
           group: processors
+          consumer:
+            maxAttempts: 3
+            backOffInitialInterval: 2000
+            backOffMaxInterval: 30000
+            backOffMultiplier: 5.0
   security:
     user:
       name: admin

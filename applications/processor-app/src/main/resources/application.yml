@@ -19,6 +19,11 @@ spring:
         binder:
           autoAddPartitions: true
           minPartitionCount: 2
+        bindings:
+          input:
+            consumer:
+              enableDlq: true
+              dlqName: kafka-demo-dlq
       bindings:
         output:
           destination: kafka-demo-processed

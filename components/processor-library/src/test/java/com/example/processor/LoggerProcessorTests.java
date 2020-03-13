@@ -29,7 +29,7 @@ public class LoggerProcessorTests {
         when(mockAppender.getName()).thenReturn("MOCK");
         root.addAppender(mockAppender);
 
-        LoggerProcessor processor = new LoggerProcessor();
+        LoggerProcessor processor = new LoggerProcessor(false);
 
         String transformed = processor.transform(new GreetingMessage(1, "Hello", LocalDateTime.now()));
 

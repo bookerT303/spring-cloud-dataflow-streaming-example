@@ -7,6 +7,8 @@ tell app "Terminal"
      end tell
 END
 }
+open-term ./launchKafka.sh
+sleep 4
 open-term ./launchSinkApp.sh
 sleep 4
 open-term ./launchProcessorApp.sh

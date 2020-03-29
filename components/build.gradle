@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootGradleVersion"
+    }
+}
+
 subprojects {
     apply plugin: "java"
     apply plugin: "io.spring.dependency-management"
@@ -28,7 +38,7 @@ subprojects {
 
         compile "org.springframework.cloud:spring-cloud-starter-stream-kafka"
         
-        testCompile "org.springframework.boot:spring-boot-starter-test:2.0.0.RELEASE"
+        testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
         testCompile "junit:junit:$junitVersion"
         testCompile "org.mockito:mockito-core:$mockitoVersion"
         testCompile "org.assertj:assertj-core:$assertJVersion"

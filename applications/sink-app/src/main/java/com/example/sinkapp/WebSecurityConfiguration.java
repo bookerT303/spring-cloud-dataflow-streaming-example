@@ -1,4 +1,4 @@
-package com.example.sourceapp;
+package com.example.sinkapp;
 
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -17,7 +17,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/publish").permitAll()
+                .antMatchers("/counter").permitAll()
                 .requestMatchers(EndpointRequest.to("info", "health")).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -25,3 +25,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
     }
 }
+

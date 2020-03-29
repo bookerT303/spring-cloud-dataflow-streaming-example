@@ -16,6 +16,10 @@ spring:
   cloud:
     stream:
       kafka:
+        streams:
+          binder:
+            brokers: localhost:9092
+            auto-create-topics: true
         binder:
           autoAddPartitions: true
           minPartitionCount: 2
@@ -50,4 +54,4 @@ management:
         include: '*'
   endpoint:
     health:
-      show-details: when_authorized
+      show-details: always

@@ -10,14 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class LoggerSinkTests {
 
     @Mock
     Appender mockAppender;
+    @Mock
+    Counter counter;
 
     @Test
     public void testSink() {
@@ -26,7 +27,7 @@ public class LoggerSinkTests {
         when(mockAppender.getName()).thenReturn("MOCK");
         root.addAppender(mockAppender);
 
-        LoggerSink sink = new LoggerSink();
+        LoggerSink sink = new LoggerSink(counter);
 
         sink.logger("Hello");
 
@@ -36,5 +37,8 @@ public class LoggerSinkTests {
                 return ((LoggingEvent) argument).getFormattedMessage().contains("received Hello");
             }
         }));
+
+        verify(counter).add(1);
+        verifyNoMoreInteractions(counter);
     }
 }

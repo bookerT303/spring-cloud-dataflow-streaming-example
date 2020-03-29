@@ -1,9 +1,11 @@
-package com.example.sinkapp;
+package com.example;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.integration.channel.AbstractMessageChannel;
 import org.springframework.messaging.Message;
@@ -18,8 +20,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
 public class SinkAppTests {
+
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Autowired
     private Sink channels;
@@ -47,5 +56,7 @@ public class SinkAppTests {
         Message<?> message1 = messageAtomicReference.get();
         assertThat(message1).isNotNull();
         assertThat(message1).hasFieldOrPropertyWithValue("payload", "Sample message, contents does not matter");
+        Integer count = restTemplate.getForObject(String.format("http://localhost:%d/counter", port), Integer.class);
+        assertThat(count).isEqualTo(1);
     }
 }

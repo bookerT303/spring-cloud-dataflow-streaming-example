@@ -1,6 +1,6 @@
 buildscript {
     ext {
-//        springBootVersion = "2.0.9.RELEASE"
+        springBootVersion = "2.0.9.RELEASE"
         springBootGradleVersion = "2.0.9.RELEASE"
         springVersion = "5.0.15.RELEASE"
         springCloudServicesVersion = "Finchley.SR4"
@@ -10,24 +10,12 @@ buildscript {
         assertJVersion = "3.11.1"
         logbackVersion = "1.2.3"
         junitVersion = "4.12"
-//        jsonPathVersion = "2.4.0"
-    }
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootGradleVersion"
+//        springKafkaVersion = "2.1.12.RELEASE"
+//        springCloudKafkaVersion = "2.0.3.RELEASE"
+        jsonPathVersion = "2.4.0"
     }
 }
 
-
-plugins {
-    id("com.github.spotbugs") version "1.7.1" apply false
-    id("org.springframework.boot") version "2.0.0.RELEASE" apply false
-    id("io.spring.dependency-management") version "1.0.7.RELEASE" apply false
-}
 
 
 defaultTasks("clean", "build")

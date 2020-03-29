@@ -2,10 +2,12 @@ package com.example.source;
 
 import com.example.models.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.integration.annotation.InboundChannelAdapter;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -19,9 +21,13 @@ public class PublisherSource {
         this.source = source;
     }
 
-    @InboundChannelAdapter(value = Source.OUTPUT)
-    public Greeting source() {
-        return new Greeting("Hello from Spring Cloud Stream", LocalDateTime.now());
+    @Component
+    @ConditionalOnProperty(name = "com.example.source.schedulerEnabled", havingValue = "true", matchIfMissing = true)
+    static class ScheduledPublisherSource {
+        @InboundChannelAdapter(value = Source.OUTPUT)
+        public Greeting source() {
+            return new Greeting("Hello from Spring Cloud Stream", LocalDateTime.now());
+        }
     }
 
     public void source(String message) {

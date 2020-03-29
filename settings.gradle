@@ -7,3 +7,6 @@ include "applications:sink-app"
 include "components:source-library"
 include "components:processor-library"
 include "components:sink-library"
+
+include "local-support:embedded-kafka"
+include "integration-test"

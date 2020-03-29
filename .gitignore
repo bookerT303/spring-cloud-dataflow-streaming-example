@@ -42,3 +42,6 @@ env_test.properties
 
 jacoco/
 applications/*/out/
+
+NotesToIgnore.md
+

@@ -52,11 +52,11 @@ public class ApplicationServer {
         waitOnPorts(120, servers);
     }
 
-    public static void waitOnPorts(long timeLimit, ApplicationServer... servers) throws InterruptedException {
-        for (ApplicationServer server : servers) waitUntilServerIsUp(timeLimit, server);
+    public static void waitOnPorts(long timeLimitSeconds, ApplicationServer... servers) throws InterruptedException {
+        for (ApplicationServer server : servers) waitUntilServerIsUp(timeLimitSeconds, server);
     }
 
-    private static void waitUntilServerIsUp(long timeout, ApplicationServer server) throws InterruptedException {
+    private static void waitUntilServerIsUp(long timeoutSeconds, ApplicationServer server) throws InterruptedException {
         RestTemplate restTemplate = new RestTemplate();
         Instant start = Instant.now();
         boolean isUp = false;
@@ -84,7 +84,7 @@ public class ApplicationServer {
                     continue;
                 }
                 long timeSpent = ChronoUnit.SECONDS.between(start, Instant.now());
-                if (timeSpent > timeout) {
+                if (timeSpent > timeoutSeconds) {
                     fail("Timed out waiting for server on port " + server.port);
                 }
 

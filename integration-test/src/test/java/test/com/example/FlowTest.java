@@ -39,7 +39,7 @@ public class FlowTest {
         processorApp.start(envMapBuilder().put("com.example.processor.errorEnabled", "false").build());
         sourceApp.start(envMapBuilder().put("com.example.source.schedulerEnabled", "false").build());
 
-        ApplicationServer.waitOnPorts(10000, sinkApp, processorApp, sourceApp);
+        ApplicationServer.waitOnPorts(100, sinkApp, processorApp, sourceApp);
     }
 
     @After

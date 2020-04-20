@@ -71,13 +71,13 @@ public class FlowTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         String count = "0";
-        for (int attempts = 0; attempts < 10 && count.equals("0"); attempts++) {
+        for (int attempts = 0; attempts < 100 && count.equals("0"); attempts++) {
             // not immediate
             count = restTemplate.getForObject(sinkApp.url("/counter"), String.class);
             if ("0".equals(count)) {
                 Thread.sleep(200);
             }
         }
-        assertThat(count).isEqualTo("1");
+        assertThat(count).isGreaterThanOrEqualTo("1");
     }
 }

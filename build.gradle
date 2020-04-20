@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        springBootVersion = "2.0.9.RELEASE"
-        springBootGradleVersion = "2.0.9.RELEASE"
-        springVersion = "5.0.15.RELEASE"
-        springCloudServicesVersion = "Finchley.SR4"
+        springBootVersion = "2.2.5.RELEASE"
+        springBootGradleVersion = "2.2.5.RELEASE"
+        springVersion = "5.2.4.RELEASE"
+        springCloudServicesVersion = "Hoxton.SR2"
         jacksonVersion = "2.9.4"
         slf4jVersion = "1.7.25"
         mockitoVersion = "2.15.0"

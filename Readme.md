@@ -139,3 +139,14 @@ The source app can publish messages using:
 ```
 curl -v --data "message data" -H "Content-Type: text/plain" http://localhost:8081/publish
 ```
+
+# Deploying to TAS
+If you deploy to TAS (Tanzu Application Service) using a manifest then
+you will need to set the `health-check-type:` for the processor
+since it is not a REST API.
+
+```
+health-check-type: process
+```
+
+[For more information on the manifest](https://docs.run.pivotal.io/devguide/deploy-apps/manifest-attributes.html)

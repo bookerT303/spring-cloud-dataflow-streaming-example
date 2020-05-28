@@ -9,10 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -21,10 +18,10 @@ public class EmbeddedKafkaServer {
 
     private static Logger log = LoggerFactory.getLogger(EmbeddedKafkaServer.class);
 
-    private static String[] topics = {};
+    private static List<String> topics = Collections.emptyList();
 
     public static void main(String[] args) {
-        topics = args;
+        topics = Arrays.stream(args).filter(arg -> false == arg.startsWith("--")).collect(toList());
         SpringApplication.run(EmbeddedKafkaServer.class, args);
     }
 
@@ -39,10 +36,10 @@ public class EmbeddedKafkaServer {
     public static EmbeddedKafkaBroker broker() throws Exception {
         EmbeddedKafkaBroker embeddedKafkaBroker;
         int port = 9092;
-        if (topics.length > 0) {
-            log.info("broker starting on port {} with topics {}", port, Arrays.stream(topics).collect(toList()));
+        if (topics.size() > 0) {
+            log.info("broker starting on port {} with topics {}", port, topics);
             embeddedKafkaBroker = new EmbeddedKafkaBroker(1, false,
-                    topics);
+                    topics.toArray(new String[0]));
         } else {
             embeddedKafkaBroker = new EmbeddedKafkaBroker(1, false);
         }

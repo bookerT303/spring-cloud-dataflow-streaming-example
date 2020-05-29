@@ -1,0 +1,22 @@
+{
+  "type": "record",
+  "name": "GreetingEvent",
+  "namespace": "com.example.event",
+  "doc": "Information about the Greeting event",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "name": "dateTime",
+      "type": "long",
+      "doc": "Date/Time in milliseconds since epoch, UTC timezone."
+    }
+  ],
+  "version": "1"
+}

@@ -1,0 +1,4 @@
+dependencies {
+    compile "com.github.tomakehurst:wiremock:2.24.1"
+    compile "io.confluent:kafka-schema-registry-client:5.1.3"
+}

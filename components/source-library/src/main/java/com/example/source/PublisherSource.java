@@ -1,6 +1,6 @@
 package com.example.source;
 
-import com.example.models.Greeting;
+import com.example.event.GreetingEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -9,12 +9,11 @@ import org.springframework.integration.annotation.InboundChannelAdapter;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @EnableBinding(Source.class)
 public class PublisherSource {
 
     private Source source;
+    private static long counter = 1;
 
     @Autowired
     public PublisherSource(Source source) {
@@ -25,15 +24,15 @@ public class PublisherSource {
     @ConditionalOnProperty(name = "com.example.source.schedulerEnabled", havingValue = "true", matchIfMissing = true)
     static class ScheduledPublisherSource {
         @InboundChannelAdapter(value = Source.OUTPUT)
-        public Greeting source() {
-            return new Greeting("Hello from Spring Cloud Stream", LocalDateTime.now());
+        public GreetingEvent source() {
+            return new GreetingEvent(counter++, "Hello from Spring Cloud Stream", System.currentTimeMillis());
         }
     }
 
     public void source(String message) {
         source.output().send(
                 MessageBuilder
-                        .withPayload(new Greeting(message, LocalDateTime.now()))
+                        .withPayload(new GreetingEvent(counter++, message, System.currentTimeMillis()))
                         .build());
     }
 }

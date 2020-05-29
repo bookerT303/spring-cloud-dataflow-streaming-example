@@ -1,16 +1,16 @@
 package com.example.processor;
 
+import com.example.event.GreetingEvent;
+import org.apache.avro.generic.GenericData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.messaging.MessageHandlingException;
-import org.springframework.messaging.support.ErrorMessage;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @EnableBinding(Processor.class)
 public class LoggerProcessor {
@@ -22,14 +22,26 @@ public class LoggerProcessor {
     }
 
     @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-    public String transform(GreetingMessage greetingMessage) {
+    public String transform(GenericData.Record data) {
+        log.info("Processor received raw " + data);
+        GreetingEvent greetingMessage = GreetingEvent.newBuilder()
+                .setId((Long) data.get("id"))
+                .setValue(String.valueOf(data.get("value")))
+                .setDateTime((Long) data.get("dateTime"))
+                .build();
+        return transform(greetingMessage);
+    }
+
+    @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
+    public String transform(GreetingEvent greetingMessage) {
 //        try {
-            log.info("Processor received " + greetingMessage);
-            if (errorEnabled && greetingMessage.getId() % 3 == 0) {
-                throw new ArrayIndexOutOfBoundsException("Example of a failure");
-            }
-            return String.format("%d: %s at %s response!",
-                    greetingMessage.getId(), greetingMessage.getValue(), greetingMessage.getDateTime());
+        log.info("Processor received " + greetingMessage);
+        if (errorEnabled && greetingMessage.getId() % 3 == 0) {
+            throw new ArrayIndexOutOfBoundsException("Example of a failure");
+        }
+        return String.format("%d: %s at %s response!",
+                greetingMessage.getId(), greetingMessage.getValue(), LocalDateTime.ofEpochSecond(
+                        greetingMessage.getDateTime(), 0, ZoneOffset.UTC));
 //        } catch (Exception ex) {
 //            throw new CannotProcessException(greetingMessage, "Unable to process", ex);
 //        }

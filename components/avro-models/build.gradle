@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.9.1"
+    }
+}
+apply plugin: "com.commercehub.gradle.plugin.avro"
+
+repositories {
+    mavenCentral()
+}
+sourceSets.main.java.srcDir new File(buildDir, "generated-sources")
+
+def generateAvro = tasks.register("generateAvro", com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
+    source("src/main/resources/avro")
+    outputDir = file("${buildDir}/generated-sources")
+}
+
+tasks.named("compileJava").configure {
+    source(generateAvro)
+}
+avro {
+    createSetters = false
+    fieldVisibility = "PRIVATE"
+}

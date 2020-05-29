@@ -8,26 +8,31 @@ info:
 
 logging:
   level: INFO
+schema.registry.url: http://localhost:8081
 
 spring:
   application:
     name: sink-app
 
+  kafka:
+    bootstrap-servers: localhost:9093
+    properties:
+      schema.registry.url: ${schema.registry.url}
+    consumer:
+      group-id: sinks
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
   cloud:
     stream:
       kafka:
-        streams:
-          binder:
-            brokers: localhost:9092
-            auto-create-topics: true
         binder:
           autoAddPartitions: true
           minPartitionCount: 2
       bindings:
         input:
           destination: kafka-demo-processed
+          content-type: application/avro
           group: sinks
-          binder: kafka
 #          content-type: application/json
   security:
     user:

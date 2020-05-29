@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.models.Greeting;
+import com.example.event.GreetingEvent;
 import com.example.source.PublisherSource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +24,6 @@ import java.util.concurrent.BlockingQueue;
 
 import static java.lang.Thread.sleep;
 import static java.util.Arrays.asList;
-import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,19 +57,14 @@ public class SourceAppTests {
         BlockingQueue<Message<?>> messages = collector.forChannel(channels.output());
 
         assertThat(messages).isNotEmpty();
-        LocalDateTime readMessagesTime = LocalDateTime.now();
+        long readMessagesTime = System.currentTimeMillis();
 
         List<String> expectedMessagesText = asList("Hello from Spring Cloud Stream", TEXT_PAYLOAD);
         messages.forEach(
                 message -> {
-                    String payload = String.valueOf(message.getPayload());
-                    try {
-                        Greeting greeting = objectMapper.readValue(payload, Greeting.class);
-                        assertThat(expectedMessagesText).contains(greeting.getValue());
-                        assertThat(greeting.getDateTime()).isLessThan(readMessagesTime);
-                    } catch (IOException ex) {
-                        fail("Could not parse \"" + payload + "\"");
-                    }
+                    GreetingEvent greeting = (GreetingEvent) message.getPayload();
+                    assertThat(expectedMessagesText).contains(greeting.getValue());
+                    assertThat(greeting.getDateTime()).isLessThan(readMessagesTime);
                 }
         );
     }

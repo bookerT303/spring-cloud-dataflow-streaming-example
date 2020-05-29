@@ -1,5 +1,6 @@
 package test.com.example.support;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -35,9 +36,20 @@ public class ApplicationServer {
     }
 
     public void start(Map<String, String> env) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder()
-                .command("java", "-jar", jarPath, "--server.port=" + port)
-                .inheritIO();
+        start("", env);
+    }
+
+    public void start(String jvmParameters, Map<String, String> env) throws IOException, InterruptedException {
+        ProcessBuilder processBuilder;
+        if (StringUtils.isEmpty(jvmParameters)) {
+            processBuilder = new ProcessBuilder()
+                    .command("java", "-jar", jarPath, "--server.port=" + port)
+                    .inheritIO();
+        } else {
+            processBuilder = new ProcessBuilder()
+                    .command("java", jvmParameters, "-jar", jarPath, "--server.port=" + port)
+                    .inheritIO();
+        }
 
         env.forEach((key, value) -> processBuilder.environment().put(key, value));
 

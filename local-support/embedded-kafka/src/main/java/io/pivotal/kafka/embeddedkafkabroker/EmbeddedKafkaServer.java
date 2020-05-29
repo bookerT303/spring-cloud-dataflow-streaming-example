@@ -1,5 +1,6 @@
 package io.pivotal.kafka.embeddedkafkabroker;
 
+import com.bakdata.schemaregistrymock.SchemaRegistryMock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,16 +27,27 @@ public class EmbeddedKafkaServer {
     }
 
     private EmbeddedKafkaBroker broker;
+    private SchemaRegistryMock schemaRegistry;
 
-
-    public EmbeddedKafkaServer(@Qualifier("EmbeddedKafkaBroker") EmbeddedKafkaBroker broker) {
+    public EmbeddedKafkaServer(SchemaRegistryMock schemaRegistry,
+                               @Qualifier("EmbeddedKafkaBroker") EmbeddedKafkaBroker broker) {
         this.broker = broker;
+        this.schemaRegistry = schemaRegistry;
+    }
+
+    @Bean
+    public static SchemaRegistryMock schemaRegistryMock(@Value("${schemaRegistryPort:0}") int schemaRegistryPort) {
+        SchemaRegistryMock registry = new SchemaRegistryMock();
+        if (schemaRegistryPort > 0) {
+            registry.start(schemaRegistryPort);
+        }
+        return registry;
     }
 
     @Bean("EmbeddedKafkaBroker")
-    public static EmbeddedKafkaBroker broker() throws Exception {
+    public static EmbeddedKafkaBroker broker(@Value("${brokerPort:0}") int kafkaPort) throws Exception {
         EmbeddedKafkaBroker embeddedKafkaBroker;
-        int port = 9092;
+        int port = kafkaPort > 0 ? kafkaPort : 9093;
         if (topics.size() > 0) {
             log.info("broker starting on port {} with topics {}", port, topics);
             embeddedKafkaBroker = new EmbeddedKafkaBroker(1, false,

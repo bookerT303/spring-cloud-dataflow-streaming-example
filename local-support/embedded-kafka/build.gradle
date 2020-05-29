@@ -3,6 +3,19 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
 }
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudServicesVersion}"
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://packages.confluent.io/maven/"
+    }
+}
 
 group = 'io.pivotal.kafka'
 
@@ -16,7 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.kafka:spring-kafka-test'
-    
+    implementation project(":components:mock-schema-registry")
+    compile "org.springframework.cloud:spring-cloud-starter-stream-kafka"
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

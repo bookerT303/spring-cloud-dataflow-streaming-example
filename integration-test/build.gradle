@@ -21,6 +21,9 @@ buildscript {
 
     repositories {
         mavenCentral()
+        maven {
+            url "http://packages.confluent.io/maven/"
+        }
     }
 
     java {
@@ -31,6 +34,7 @@ buildscript {
     dependencies {
         compile "org.springframework:spring-web"
         compile "org.slf4j:slf4j-api:$slf4jVersion"
+        testCompile project(":components:mock-schema-registry")
 
         testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
         testCompile "junit:junit:$junitVersion"

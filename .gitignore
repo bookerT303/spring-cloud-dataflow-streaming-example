@@ -45,3 +45,4 @@ applications/*/out/
 
 NotesToIgnore.md
 
+integration-test/*.log

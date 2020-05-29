@@ -8,39 +8,54 @@ info:
 
 logging:
   level: INFO
+schema.registry.url: http://localhost:8081
 
 spring:
   application:
     name: processor-app
-
+  kafka:
+    bootstrap-servers: localhost:9093
+    properties:
+      schema.registry.url: ${schema.registry.url}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    consumer:
+      group-id: processors
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
   cloud:
     stream:
       kafka:
-        streams:
-          binder:
-            brokers: localhost:9092
-            auto-create-topics: true
         binder:
           autoAddPartitions: true
           minPartitionCount: 2
-        bindings:
-          input:
-            consumer:
-              enableDlq: true
-              dlqName: kafka-demo-dlq
+          auto-create-topics: true
+          brokers: localhost:9093
+          configuration:
+            commit.interval.ms: 1000
+            schema.registry.url: ${schema.registry.url}
+        streams:
+          binder:
+            configuration:
+              serdeError: logAndContinue
       bindings:
         output:
           destination: kafka-demo-processed
-          content-type: application/json
+          content-type: application/avro
+          producer:
+            useNativeEncoding: true
         input:
           destination: kafka-demo
-          content-type: application/json
+          content-type: application/avro
           group: processors
           consumer:
             maxAttempts: 3
             backOffInitialInterval: 2000
             backOffMaxInterval: 30000
             backOffMultiplier: 5.0
+            useNatvieDecoding: true
+
   security:
     user:
       name: admin

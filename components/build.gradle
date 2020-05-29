@@ -21,6 +21,9 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url "http://packages.confluent.io/maven/"
+        }
     }
 
     java {
@@ -35,7 +38,8 @@ subprojects {
         compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
         compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
         compile "org.slf4j:slf4j-api:$slf4jVersion"
-
+        compile "org.apache.avro:avro:1.9.2"
+        compile 'org.springframework.cloud:spring-cloud-stream-schema:2.2.0.RELEASE'
         compile "org.springframework.cloud:spring-cloud-starter-stream-kafka"
         
         testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"

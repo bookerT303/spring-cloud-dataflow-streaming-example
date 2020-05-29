@@ -1,3 +1,9 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
 rootProject.name = 'spring-cloud-dataflow-streaming-example'
 
 include "applications:source-app"
@@ -7,6 +13,8 @@ include "applications:sink-app"
 include "components:source-library"
 include "components:processor-library"
 include "components:sink-library"
+include "components:avro-models"
+include "components:mock-schema-registry"
 
 include "local-support:embedded-kafka"
 include "integration-test"

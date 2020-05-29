@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":components:avro-models")
+    compile "org.apache.avro:avro:1.9.2"
+}

@@ -137,7 +137,7 @@ processors should have processed.**
 
 The source app can publish messages using:
 ```
-curl -v --data "message data" -H "Content-Type: text/plain" http://localhost:8081/publish
+curl -v --data "message data" -H "Content-Type: text/plain" http://localhost:8084/publish
 ```
 
 # Deploying to TAS

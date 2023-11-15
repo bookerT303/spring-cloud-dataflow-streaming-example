@@ -2,8 +2,7 @@
 
 Example for the blog post: http://zoltanaltfatter.com/2017/08/24/streaming-with-spring-cloud-data-flow
 
-This is a mvn project without any mvnw so use Intellij Maven Projects to execute the mvn commands
-for clean and package
+This is a mvn project has been converted to gradle and using appcontinuum structure
 
 # Install and setup
 ```
